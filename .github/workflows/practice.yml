@@ -9,6 +9,7 @@ jobs:
     outputs:
       lucky-number: ${{ steps.num.outputs.number }}
       favorite-color: ${{ steps.color.outputs.color }}
+      today-date: ${{ steps.date.outputs.today }}
     steps:
       - name: Set a lucky number
         id: num
@@ -18,6 +19,10 @@ jobs:
         id: color
         run: echo "color=green" >> $GITHUB_OUTPUT
 
+      - name: Show today's date
+        id: date
+        run: echo "today=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+
   second-job:
     needs: first-job
     runs-on: ubuntu-latest
@@ -26,3 +31,14 @@ jobs:
         run: |
           echo "Lucky number: ${{ needs.first-job.outputs.lucky-number }}"
           echo "Favorite color: ${{ needs.first-job.outputs.favorite-color }}"
+          echo "Today's date: ${{ needs.first-job.outputs.today-date }}"
+
+  third-job:
+    needs: first-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: show the outputs
+        run: |
+          echo "Lucky number: ${{ needs.first-job.outputs.lucky-number }}"
+          echo "Favourite colour: ${{ needs.first-job.outputs.favorite-color }}"
+          echo "Today's date: ${{ needs.first-job.outputs.today-date }}"
