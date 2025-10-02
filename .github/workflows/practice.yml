@@ -1,7 +1,7 @@
 name: Practice Job Outputs
 
 on:
-  workflow_dispatch: # lets you trigger it manually
+  push: # lets you trigger it manually
 
 jobs:
   first-job:
